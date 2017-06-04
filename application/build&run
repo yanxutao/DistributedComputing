@@ -1,0 +1,54 @@
+
+1 编译/运行环境
+
+java 1.7.0_95
+ice 3.6
+
+
+2 基于Socket实现
+
+2.1 build
+
+cd ./source/chat/
+mkdir binary
+javac -d binary *.java
+
+2.2 run
+
+cd ./binary/chat/
+
+首先运行Server：
+java Server
+
+重新打开一个终端，运行Client：
+java Client username
+"username"可以随意指定，建议使用有意义的名字
+
+
+3 基于IceStorm实现
+
+3.1 build
+
+cd ./source/chatIceStorm
+
+编译slice定义
+slice2java Chat.ice
+
+mkdir binary
+javac -d binary -classpath /usr/share/java/ice.jar:/usr/share/java/icestorm.jar Client.java Chat/*.java
+注意：binary中没有包含配置文件，如果需要再此目录下运行程序，需要首先执行：
+mv config.* binary
+mv db binary
+
+3.2 run
+
+cd ./binary/chatIceStorm
+
+开启IceStorm服务: 
+icebox --Ice.Config=config.icebox
+这个配置假定当前目录下有一个名字为db的子目录
+
+重新打开一个终端，运行ChatClient：
+java -classpath ./:/usr/share/java/ice.jar:/usr/share/java/icestorm.jar Client username
+"username"可以随意指定，建议使用有意义的名字
+
